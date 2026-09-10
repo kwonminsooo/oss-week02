@@ -26,8 +26,9 @@
 // So: collect lines in the "line" handler, do the work in the "close" handler.
 
 import readline from "node:readline";
+import Inko from "inko";
 
-// TODO: import Inko from "inko" and create an instance
+const inko = new Inko();
 
 const reverse = process.argv.includes("--reverse");
 const lines = [];
@@ -48,9 +49,8 @@ rl.on("line", (line) => {
 });
 
 rl.on("close", () => {
-  // TODO
-  // Drop empty lines, convert each line with inko, and print them numbered:
-  //   1. 오픈 소스
-  //   2. 깃허브 노드
-  // Use ko2en instead of en2ko when reverse is true.
+  lines
+    .filter((line) => line.trim() !== "")
+    .map((line) => (reverse ? inko.ko2en(line) : inko.en2ko(line)))
+    .forEach((line, i) => console.log(`${i + 1}. ${line}`));
 });
